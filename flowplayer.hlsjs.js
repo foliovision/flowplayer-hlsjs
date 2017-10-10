@@ -884,6 +884,18 @@
 
                                 }
                             });
+                            
+                            
+                            hlsClientConf['pLoader'] = function (config) {
+                                var loader = new Hls.DefaultConfig.loader(config);
+                            
+                                this.abort = function() { loader.abort() };
+                                this.destroy = function() { loader.destroy() };
+                                this.load = function(context, config, callbacks) {
+                                    context.url = context.url+'?no_cache='+Math.random();
+                                    loader.load(context, config, callbacks);
+                                };
+                            }                            
 
                             hls = new Hls(hlsClientConf);
                             player.engine[engineName] = hls;
